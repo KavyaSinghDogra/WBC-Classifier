@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>White Blood Cell Classifier</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f9ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .description {
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .upload-box {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        img {
+            margin-top: 15px;
+            max-width: 300px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .disease-info {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .disease-info h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>White Blood Cell Classifier</h1>
+    </header>
+
+    <div class="description">
+        <p>
+            Upload an image of a white blood cell and let our AI model classify it as one of the five types:
+            Basophil, Eosinophil, Lymphocyte, Monocyte, or Neutrophil.
+            This tool helps in automating the diagnosis process with high accuracy.
+        </p>
+    </div>
+
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data">
+            <label for="image"><strong>Select an Image:</strong></label><br>
+            <input type="file" name="image" accept="image/*" required><br>
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if error %}
+        <div style="color: red;">{{ error }}</div>
+        {% endif %}
+
+        {% if filename %}
+        <div class="result">
+            <p>{{ result }}</p>
+            <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image">
+        </div>
+        {% endif %}
+        {% if diseases %}
+        <div class="disease-info">
+            <h3>Related Diseases:</h3>
+            <ul>
+                {% for disease in diseases %}
+                <li>{{ disease }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        &copy; 2025 White Blood Cell Classifier | Built with Flask & TensorFlow
+    </footer>
+
+</body>
+
+</html>
